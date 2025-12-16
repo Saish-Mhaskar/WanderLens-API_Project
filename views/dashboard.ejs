@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLens - Dashboard</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body class="dashboard">
+    <header class="topbar">
+        <div class="brand">WanderLens</div>
+        <form class="search-form small" action="/submit" method="POST">
+            <input type="text" name="country" placeholder="Search another country..." required>
+            <button type="submit">Go</button>
+        </form>
+    </header>
+
+    <main class="dashboard-grid">
+        <!-- Country Card -->
+        <section class="dashboard-card country-card">
+            <div class="card-header">
+                <div class="flag-container">
+                    <% if (country?.flag) { %>
+                        <img src="<%= country.flag %>" alt="Flag" class="flag-img">
+                    <% } %>
+                </div>
+                <h2 class="card-title"><%= country?.name || 'N/A' %></h2>
+            </div>
+            <div class="card-body">
+                <div class="info-row">
+                    <span class="info-label">Capital</span>
+                    <span class="info-value"><%= country?.capital || 'N/A' %></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Region</span>
+                    <span class="info-value"><%= country?.region || 'N/A' %></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Population</span>
+                    <span class="info-value"><%= country?.population ? country.population.toLocaleString() : 'N/A' %></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Languages</span>
+                    <span class="info-value"><%= country?.languages && country.languages.length ? country.languages.join(', ') : 'N/A' %></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Card -->
+        <section class="dashboard-card weather-card">
+            <div class="card-header">
+                <h2 class="card-title">Weather</h2>
+                <% if (weather?.icon) { %>
+                    <img src="<%= weather.icon %>" alt="Weather icon" class="weather-icon">
+                <% } %>
+            </div>
+            <div class="card-body">
+                <div class="weather-main">
+                    <span class="temp-large"><%= weather?.temp ?? 'N/A' %></span>
+                    <span class="temp-unit">°C</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Condition</span>
+                    <span class="info-value"><%= weather?.description || 'N/A' %></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Local Time</span>
+                    <span class="info-value time-display"><%= weather?.localTime || 'N/A' %></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Finance Card -->
+        <section class="dashboard-card finance-card">
+            <div class="card-header">
+                <h2 class="card-title">Currency</h2>
+            </div>
+            <div class="card-body">
+                <div class="exchange-rate">
+                    <span class="rate-label">1 USD =</span>
+                    <span class="rate-value">
+                        <%= finance?.rate ? finance.rate.toFixed(2) : 'N/A' %>
+                        <span class="currency-code"><%= finance?.currencyCode || '' %></span>
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Currency Name</span>
+                    <span class="info-value"><%= finance?.currencyName || 'N/A' %></span>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
